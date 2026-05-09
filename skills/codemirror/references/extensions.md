@@ -1,5 +1,7 @@
 # CodeMirror 6 Extensions
 
+> Docs: [Core Extensions](https://codemirror.net/docs/extensions/) · [Reference Manual](https://codemirror.net/docs/ref/) · [Examples](https://codemirror.net/examples/)
+
 ## Extension types
 
 | Type | Purpose |
@@ -204,7 +206,9 @@ Levels: `highest > high > default > low > lowest`
 ```ts
 import { placeholder } from "@codemirror/view"
 
-placeholder("Start typing…")
+EditorState.create({
+  extensions: [placeholder("Start typing…")],
+})
 ```
 
 ## Multiple selections
@@ -213,11 +217,14 @@ placeholder("Start typing…")
 import { EditorState } from "@codemirror/state"
 import { drawSelection, rectangularSelection, crosshairCursor } from "@codemirror/view"
 
-// Enable multi-range selection support
-EditorState.allowMultipleSelections.of(true),
-drawSelection(),          // renders all ranges (browser only shows one native cursor)
-rectangularSelection(),   // Alt+drag to create rectangular selection
-crosshairCursor(),        // shows crosshair cursor when Alt is held
+EditorState.create({
+  extensions: [
+    EditorState.allowMultipleSelections.of(true),
+    drawSelection(),        // renders all ranges (browser only shows one native cursor)
+    rectangularSelection(), // Alt+drag to create rectangular selection
+    crosshairCursor(),      // shows crosshair cursor when Alt is held
+  ],
+})
 ```
 
 ## Search
@@ -226,10 +233,12 @@ crosshairCursor(),        // shows crosshair cursor when Alt is held
 import { search, searchKeymap } from "@codemirror/search"
 import { keymap } from "@codemirror/view"
 
-search(),                           // Ctrl-F opens find panel
-keymap.of(searchKeymap),
-// Options:
-search({ top: true })               // panel appears at top
+EditorState.create({
+  extensions: [
+    search({ top: true }), // top: true — panel appears at top; default is bottom
+    keymap.of(searchKeymap), // Ctrl-F to open, Ctrl-H for replace
+  ],
+})
 ```
 
 ## Autocomplete
@@ -238,10 +247,7 @@ search({ top: true })               // panel appears at top
 import { autocompletion, completionKeymap, CompletionContext } from "@codemirror/autocomplete"
 import { keymap } from "@codemirror/view"
 
-autocompletion(),
-keymap.of(completionKeymap),
-
-// Custom completion source:
+// Custom completion source
 function myCompletions(context: CompletionContext) {
   const word = context.matchBefore(/\w+/)
   if (!word || (!word.text && !context.explicit)) return null
@@ -253,7 +259,13 @@ function myCompletions(context: CompletionContext) {
     ],
   }
 }
-autocompletion({ override: [myCompletions] })
+
+EditorState.create({
+  extensions: [
+    autocompletion({ override: [myCompletions] }), // omit override to use language-provided completions
+    keymap.of(completionKeymap), // Ctrl-Space to trigger
+  ],
+})
 ```
 
 ## Lint
@@ -262,18 +274,22 @@ autocompletion({ override: [myCompletions] })
 import { linter, lintGutter, lintKeymap, Diagnostic } from "@codemirror/lint"
 import { keymap } from "@codemirror/view"
 
-lintGutter(),
-keymap.of(lintKeymap),
-linter(view => {
-  const diagnostics: Diagnostic[] = []
-  // inspect view.state.doc ...
-  diagnostics.push({
-    from: 0, to: 5,
-    severity: "error",   // "info" | "warning" | "error"
-    message: "Something is wrong",
-  })
-  return diagnostics
-}),
+EditorState.create({
+  extensions: [
+    lintGutter(),
+    keymap.of(lintKeymap),
+    linter(view => {
+      const diagnostics: Diagnostic[] = []
+      // inspect view.state.doc ...
+      diagnostics.push({
+        from: 0, to: 5,
+        severity: "error", // "info" | "warning" | "error"
+        message: "Something is wrong",
+      })
+      return diagnostics
+    }),
+  ],
+})
 ```
 
 ## Code folding
@@ -282,9 +298,13 @@ linter(view => {
 import { foldGutter, foldKeymap, codeFolding } from "@codemirror/language"
 import { keymap } from "@codemirror/view"
 
-foldGutter(),
-keymap.of(foldKeymap),
-codeFolding(),   // requires a language with foldService
+EditorState.create({
+  extensions: [
+    foldGutter(),
+    codeFolding(), // requires a language with foldService
+    keymap.of(foldKeymap), // Ctrl-Shift-[ to fold, Ctrl-Shift-] to unfold
+  ],
+})
 ```
 
 ## Hover tooltips
@@ -292,17 +312,21 @@ codeFolding(),   // requires a language with foldService
 ```ts
 import { hoverTooltip } from "@codemirror/view"
 
-hoverTooltip((view, pos, side) => {
-  const word = view.state.doc.sliceString(pos - 5, pos + 5)
-  return {
-    pos,
-    above: true,
-    create() {
-      const dom = document.createElement("div")
-      dom.textContent = `Hover: ${word}`
-      return { dom }
-    },
-  }
+EditorState.create({
+  extensions: [
+    hoverTooltip((view, pos) => {
+      const word = view.state.doc.sliceString(pos - 5, pos + 5)
+      return {
+        pos,
+        above: true,
+        create() {
+          const dom = document.createElement("div")
+          dom.textContent = `Hover: ${word}`
+          return { dom }
+        },
+      }
+    }),
+  ],
 })
 ```
 
@@ -311,20 +335,24 @@ hoverTooltip((view, pos, side) => {
 ```ts
 import { EditorState } from "@codemirror/state"
 
-// Cancel or modify transactions
-EditorState.transactionFilter.of(tr => {
-  if (tr.docChanged && shouldBlock(tr)) return []  // cancel
-  return tr
-})
+EditorState.create({
+  extensions: [
+    // Cancel or modify transactions
+    EditorState.transactionFilter.of(tr => {
+      if (tr.docChanged && shouldBlock(tr)) return [] // cancel
+      return tr
+    }),
 
-// Add effects/annotations to transactions from any source
-EditorState.transactionExtender.of(tr => {
-  if (tr.docChanged) return { effects: [myEffect.of(true)] }
-  return null
-})
+    // Add effects/annotations to transactions from any source
+    EditorState.transactionExtender.of(tr => {
+      if (tr.docChanged) return { effects: [myEffect.of(true)] }
+      return null
+    }),
 
-// Filter individual changes
-EditorState.changeFilter.of(tr => false)  // prevent all changes
+    // Filter individual changes (return false to block)
+    EditorState.changeFilter.of(_tr => false),
+  ],
+})
 ```
 
 ## Input interception
@@ -332,14 +360,16 @@ EditorState.changeFilter.of(tr => false)  // prevent all changes
 ```ts
 import { EditorView } from "@codemirror/view"
 
-EditorView.inputHandler.of((view, from, to, text) => {
-  // text: the character(s) the user typed
-  if (text === "/" && shouldAutocomplete(view, from)) {
-    // dispatch custom transaction instead
-    view.dispatch({ changes: { from, to, insert: "/ " } })
-    return true // handled — prevent default insert
-  }
-  return false  // let default input handling proceed
+EditorState.create({
+  extensions: [
+    EditorView.inputHandler.of((view, from, to, text) => {
+      if (text === "/" && shouldAutocomplete(view, from)) {
+        view.dispatch({ changes: { from, to, insert: "/ " } })
+        return true // handled — prevent default insert
+      }
+      return false // let default input handling proceed
+    }),
+  ],
 })
 ```
 
@@ -348,7 +378,9 @@ EditorView.inputHandler.of((view, from, to, text) => {
 ```ts
 import { scrollPastEnd } from "@codemirror/view"
 
-scrollPastEnd()  // allows scrolling so the last line sits at the top
+EditorState.create({
+  extensions: [scrollPastEnd()],
+})
 ```
 
 ## Commands (StateCommand)

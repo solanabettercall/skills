@@ -1,5 +1,7 @@
 # CodeMirror 6 Architecture
 
+> Docs: [System Guide](https://codemirror.net/docs/guide/) · [Reference Manual](https://codemirror.net/docs/ref/)
+
 ## Data model
 
 Documents are flat strings stored in a balanced tree (`Text`), enabling efficient slicing and line indexing. Access:

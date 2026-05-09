@@ -103,8 +103,8 @@ view.dispatch(view.state.changeByRange(range => ({
   range: EditorSelection.cursor(range.from + "replacement".length),
 })))
 
-// Filter/intercept transactions
-EditorState.transactionFilter.of(tr => {
+// Filter/intercept transactions (pass as extension)
+const blockEdits = EditorState.transactionFilter.of(tr => {
   if (tr.docChanged && isReadOnly) return [] // cancel
   return tr
 })
@@ -211,3 +211,10 @@ view.destroy()
 - [Architecture details](references/architecture.md) — state model, transactions, viewport rendering
 - [Extensions deep dive](references/extensions.md) — state fields, view plugins, decorations, facets
 - [Boilerplate](assets/basic-setup.ts) — copy-paste TypeScript starter
+
+### Official docs
+
+- [System Guide](https://codemirror.net/docs/guide/) — concepts, patterns, best practices
+- [Reference Manual](https://codemirror.net/docs/ref/) — full public API
+- [Core Extensions](https://codemirror.net/docs/extensions/) — all built-in extensions
+- [Examples](https://codemirror.net/examples/) — runnable use-case demos

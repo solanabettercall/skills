@@ -1,0 +1,15 @@
+{
+  "name": "clack-skills",
+  "version": "1.0.0",
+  "description": "Personal collection of agent skills",
+  "owner": "clack",
+  "plugins": [
+    {
+      "name": "codemirror-skills",
+      "description": "CodeMirror 6 editor integration skills",
+      "skills": ["codemirror"],
+      "strict": false,
+      "root": "skills"
+    }
+  ]
+}

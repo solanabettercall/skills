@@ -10,6 +10,13 @@
       "skills": ["codemirror"],
       "strict": false,
       "root": "skills"
+    },
+    {
+      "name": "melt-ui-skills",
+      "description": "Melt UI headless component builders for Svelte",
+      "skills": ["melt-ui"],
+      "strict": false,
+      "root": "skills"
     }
   ]
 }

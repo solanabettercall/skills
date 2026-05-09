@@ -8,7 +8,8 @@
       "WebFetch(domain:add-skill.org)",
       "WebFetch(domain:dev.to)",
       "WebFetch(domain:medium.com)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:melt-ui.com)"
     ]
   }
 }

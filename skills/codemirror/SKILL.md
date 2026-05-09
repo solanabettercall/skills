@@ -3,7 +3,7 @@ name: codemirror
 description: Set up and configure CodeMirror 6 editor. Use when integrating a code editor into a web app, adding syntax highlighting, themes, extensions, or custom key bindings with @codemirror/* packages.
 license: MIT
 metadata:
-  author: clack
+  author: clackgot
   version: "1.0"
 compatibility: Node.js + npm/pnpm. Browser environment required for EditorView.
 ---

@@ -1,8 +1,8 @@
 {
-  "name": "clack-skills",
+  "name": "clackgot-skills",
   "version": "1.0.0",
   "description": "Personal collection of agent skills",
-  "owner": "clack",
+  "owner": "clackgot",
   "plugins": [
     {
       "name": "codemirror-skills",

@@ -5,13 +5,13 @@ Personal collection of [Agent Skills](https://agentskills.io) — works with Cla
 ## Install
 
 ```bash
-npx skills add clackgot/skills
+npx skills add solanabettercall/skills
 ```
 
 Install a specific skill:
 
 ```bash
-npx skills add clackgot/skills --skill codemirror
+npx skills add solanabettercall/skills --skill codemirror
 ```
 
 ## Skills

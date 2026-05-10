@@ -19,6 +19,8 @@ npx skills add solanabettercall/skills --skill codemirror
 | Skill | Description |
 |---|---|
 | [codemirror](skills/codemirror/SKILL.md) | Set up and configure CodeMirror 6 editor |
+| [melt-ui](skills/melt-ui/SKILL.md) | Build accessible headless UI components for Svelte |
+| [graphology](skills/graphology/SKILL.md) | Graph data structures, algorithms, layouts and file formats |
 
 ## Add a new skill
 

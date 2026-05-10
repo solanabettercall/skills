@@ -17,6 +17,13 @@
       "skills": ["melt-ui"],
       "strict": false,
       "root": "skills"
+    },
+    {
+      "name": "graphology-skills",
+      "description": "Graph data structures and algorithms with Graphology",
+      "skills": ["graphology"],
+      "strict": false,
+      "root": "skills"
     }
   ]
 }

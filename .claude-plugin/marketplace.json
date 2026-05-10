@@ -24,6 +24,13 @@
       "skills": ["graphology"],
       "strict": false,
       "root": "skills"
+    },
+    {
+      "name": "sigma-skills",
+      "description": "WebGL graph visualization with sigma.js v3",
+      "skills": ["sigma"],
+      "strict": false,
+      "root": "skills"
     }
   ]
 }

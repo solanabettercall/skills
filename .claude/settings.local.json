@@ -10,7 +10,8 @@
       "WebFetch(domain:medium.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:melt-ui.com)",
-      "WebFetch(domain:graphology.github.io)"
+      "WebFetch(domain:graphology.github.io)",
+      "WebFetch(domain:www.sigmajs.org)"
     ]
   }
 }
